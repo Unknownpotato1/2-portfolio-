@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shahbaz Ahmad — Food Technologist</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur: 0.55s;
+}
+
+[data-theme="dark"] {
+  --bg:           #080b10;
+  --bg2:          #0e1219;
+  --bg3:          #141820;
+  --border:       rgba(255,255,255,0.07);
+  --text:         #e8e4dc;
+  --text2:        #7a7870;
+  --text3:        #3a3830;
+  --accent:       #c9a96e;
+  --accent2:      #8b6a3e;
+  --accent-glow:  rgba(201,169,110,0.18);
+  --card-bg:      rgba(20,24,32,0.85);
+  --nav-bg:       rgba(8,11,16,0.92);
+  --hero-shadow:  linear-gradient(to top, #080b10 0%, rgba(8,11,16,0.55) 45%, transparent 100%);
+  --tag-bg:       rgba(201,169,110,0.1);
+  --tag-border:   rgba(201,169,110,0.25);
+}
+
+[data-theme="light"] {
+  --bg:           #f7f3ed;
+  --bg2:          #efe9e0;
+  --bg3:          #e6dfd5;
+  --border:       rgba(0,0,0,0.08);
+  --text:         #1a1510;
+  --text2:        #7a6a50;
+  --text3:        #bba888;
+  --accent:       #8b5e20;
+  --accent2:      #c49040;
+  --accent-glow:  rgba(139,94,32,0.12);
+  --card-bg:      rgba(247,243,237,0.9);
+  --nav-bg:       rgba(247,243,237,0.94);
+  --hero-shadow:  linear-gradient(to top, #f7f3ed 0%, rgba(247,243,237,0.55) 45%, transparent 100%);
+  --tag-bg:       rgba(139,94,32,0.08);
+  --tag-border:   rgba(139,94,32,0.2);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+  overflow-x: hidden;
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--accent2); border-radius: 2px; }
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 5vw;
+  height: 64px;
+  background: var(--nav-bg);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.nav-logo {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.22em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.nav-links {
+  display: flex; gap: 36px; list-style: none;
+}
+
+.nav-links a {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text2);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--accent); }
+
+/* ─── THEME TOGGLE ─── */
+.toggle-wrap {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 16px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  cursor: pointer;
+  user-select: none;
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.toggle-wrap:hover { border-color: var(--accent2); }
+
+.t-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text3);
+  transition: color var(--dur) var(--ease);
+  min-width: 28px;
+}
+.t-label.left { text-align: right; }
+[data-theme="dark"] .t-label.left   { color: var(--accent); }
+[data-theme="light"] .t-label.right { color: var(--accent); }
+
+.track {
+  width: 44px; height: 24px;
+  border-radius: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  position: relative;
+  flex-shrink: 0;
+  transition: background var(--dur) var(--ease);
+}
+.thumb {
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
+  transition: transform var(--dur) var(--ease), background var(--dur) var(--ease);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px;
+}
+[data-theme="light"] .thumb { transform: translateX(20px); }
+
+/* ─── HERO ─── */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  overflow: hidden;
+}
+
+.hero-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: opacity var(--dur) var(--ease);
+}
+.hero-img.dark  { opacity: 1; }
+.hero-img.light { opacity: 0; }
+[data-theme="light"] .hero-img.dark  { opacity: 0; }
+[data-theme="light"] .hero-img.light { opacity: 1; }
+
+.hero-shadow {
+  position: absolute; inset: 0;
+  background: var(--hero-shadow);
+  transition: background var(--dur) var(--ease);
+}
+
+.hero-content {
+  position: absolute;
+  bottom: 9%;
+  left: 6vw;
+  right: 6vw;
+}
+
+.hero-eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.35em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: fadeUp 0.9s var(--ease) 0.3s forwards;
+}
+
+.hero-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 7vw, 6.5rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 1s var(--ease) 0.5s forwards;
+}
+
+.hero-name em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.hero-sub {
+  margin-top: 16px;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  color: var(--text2);
+  max-width: 420px;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: fadeUp 0.9s var(--ease) 0.75s forwards;
+}
+
+.hero-cta {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-top: 28px;
+  padding: 12px 28px;
+  border: 1px solid var(--accent);
+  border-radius: 2px;
+  color: var(--accent);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.25s, color 0.25s;
+  opacity: 0;
+  animation: fadeUp 0.9s var(--ease) 1s forwards;
+}
+.hero-cta:hover { background: var(--accent); color: var(--bg); }
+
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── SECTION COMMON ─── */
+section {
+  padding: 100px 6vw;
+}
+
+.section-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.35em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: flex; align-items: center; gap: 14px;
+}
+.section-label::after {
+  content: '';
+  display: block;
+  width: 40px; height: 1px;
+  background: var(--accent2);
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 56px;
+}
+
+/* ─── DIVIDER ─── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0 6vw;
+}
+
+/* ─── ABOUT ─── */
+#about {
+  background: var(--bg2);
+  transition: background var(--dur) var(--ease);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.about-text p {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--text2);
+  margin-bottom: 20px;
+}
+
+.about-text p strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.about-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+
+.stat-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  padding: 28px 24px;
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.stat-card:hover { border-color: var(--accent2); }
+
+.stat-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.stat-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+
+/* ─── SKILLS ─── */
+#skills { background: var(--bg); transition: background var(--dur) var(--ease); }
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.skill-group {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 36px 32px;
+  transition: background var(--dur) var(--ease), border-color 0.25s;
+}
+.skill-group:hover { border-color: var(--accent2); }
+
+.skill-group-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.skill-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+
+.tag {
+  padding: 6px 14px;
+  background: var(--tag-bg);
+  border: 1px solid var(--tag-border);
+  border-radius: 2px;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--text2);
+  transition: background 0.2s, color 0.2s;
+}
+.tag:hover { background: var(--accent-glow); color: var(--accent); }
+
+/* ─── EXPERIENCE ─── */
+#experience { background: var(--bg2); transition: background var(--dur) var(--ease); }
+
+.exp-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  padding: 44px 48px;
+  position: relative;
+  overflow: hidden;
+  transition: background var(--dur) var(--ease), border-color 0.25s;
+}
+.exp-card:hover { border-color: var(--accent2); }
+
+.exp-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--accent), var(--accent2));
+}
+
+.exp-role {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.exp-company {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.exp-achievement {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--accent-glow);
+  border: 1px solid var(--tag-border);
+  padding: 8px 16px;
+  border-radius: 2px;
+  font-size: 0.8rem;
+  color: var(--accent);
+  margin-bottom: 24px;
+}
+
+.exp-list {
+  list-style: none;
+  display: flex; flex-direction: column; gap: 10px;
+}
+
+.exp-list li {
+  display: flex; align-items: flex-start; gap: 12px;
+  font-size: 0.88rem;
+  color: var(--text2);
+  line-height: 1.6;
+}
+
+.exp-list li::before {
+  content: '—';
+  color: var(--accent2);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ─── PROJECTS ─── */
+#projects { background: var(--bg); transition: background var(--dur) var(--ease); }
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+
+.project-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 40px 36px;
+  transition: background var(--dur) var(--ease), border-color 0.25s, transform 0.25s;
+  cursor: default;
+}
+.project-card:hover {
+  border-color: var(--accent2);
+  transform: translateY(-3px);
+}
+
+.project-icon {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.project-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.project-desc {
+  font-size: 0.85rem;
+  line-height: 1.75;
+  color: var(--text2);
+}
+
+/* ─── EDUCATION ─── */
+#education { background: var(--bg2); transition: background var(--dur) var(--ease); }
+
+.edu-timeline {
+  display: flex; flex-direction: column; gap: 2px;
+}
+
+.edu-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  padding: 32px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  transition: background var(--dur) var(--ease), border-color 0.25s;
+}
+.edu-card:hover { border-color: var(--accent2); }
+
+.edu-degree {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.edu-school {
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  color: var(--text2);
+}
+.edu-meta {
+  text-align: right;
+  flex-shrink: 0;
+}
+.edu-year {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+.edu-grade {
+  font-size: 0.78rem;
+  color: var(--text2);
+}
+
+/* ─── SOFT SKILLS + LANGUAGES ─── */
+#extras { background: var(--bg); transition: background var(--dur) var(--ease); }
+
+.extras-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2px;
+}
+
+.extras-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 36px 32px;
+  transition: background var(--dur) var(--ease), border-color 0.25s;
+}
+.extras-card:hover { border-color: var(--accent2); }
+
+.extras-card-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 22px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.pill-list {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+
+.pill {
+  padding: 7px 16px;
+  background: var(--tag-bg);
+  border: 1px solid var(--tag-border);
+  border-radius: 50px;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: var(--text2);
+}
+
+/* ─── CONTACT ─── */
+#contact {
+  background: var(--bg2);
+  transition: background var(--dur) var(--ease);
+}
+
+.contact-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.contact-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: 20px;
+}
+.contact-headline em { font-style: italic; color: var(--accent); }
+
+.contact-sub {
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: var(--text2);
+  margin-bottom: 36px;
+}
+
+.contact-links {
+  display: flex; flex-direction: column; gap: 14px;
+}
+
+.contact-link {
+  display: flex; align-items: center; gap: 14px;
+  text-decoration: none;
+  padding: 16px 20px;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  transition: border-color 0.25s, background 0.25s;
+}
+.contact-link:hover { border-color: var(--accent); background: var(--accent-glow); }
+
+.contact-link-icon { font-size: 1.1rem; }
+.contact-link-text { font-size: 0.85rem; color: var(--text2); }
+.contact-link-text span { display: block; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); margin-bottom: 2px; }
+
+/* ─── FOOTER ─── */
+footer {
+  padding: 32px 6vw;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.footer-logo {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  color: var(--accent2);
+}
+
+.footer-copy {
+  font-size: 0.72rem;
+  color: var(--text3);
+  letter-spacing: 0.06em;
+}
+
+/* ─── MOBILE ─── */
+@media (max-width: 768px) {
+  nav { padding: 0 4vw; }
+  .nav-links { display: none; }
+  section { padding: 70px 5vw; }
+
+  .about-grid,
+  .contact-inner { grid-template-columns: 1fr; gap: 40px; }
+
+  .skills-grid,
+  .extras-grid { grid-template-columns: 1fr; }
+
+  .projects-grid { grid-template-columns: 1fr; }
+
+  .about-stats { grid-template-columns: 1fr 1fr; }
+
+  .edu-card { flex-direction: column; align-items: flex-start; }
+  .edu-meta { text-align: left; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Shahbaz Ahmad</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="toggle-wrap" id="toggle" role="button" aria-label="Toggle theme" tabindex="0">
+    <span class="t-label left">Dark</span>
+    <div class="track"><div class="thumb">☾</div></div>
+    <span class="t-label right">Light</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <img class="hero-img dark"  src="https://res.cloudinary.com/drlmgjt6p/image/upload/v1779135079/Picsart_26-05-19_01-30-11-934_mpalci.jpg" alt="Shahbaz Ahmad">
+  <img class="hero-img light" src="https://res.cloudinary.com/drlmgjt6p/image/upload/v1779135079/Picsart_26-05-19_01-34-11-808_bng5am.jpg" alt="Shahbaz Ahmad">
+  <div class="hero-shadow"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Food Technologist &amp; Entrepreneur</p>
+    <h1 class="hero-name">Shahbaz<br><em>Ahmad</em></h1>
+    <p class="hero-sub">B.Tech Food Technology · Integral University, Lucknow<br>Quality Control · Research &amp; Development · Dairy Technology</p>
+    <a href="#contact" class="hero-cta">Get In Touch →</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <p class="section-label">About Me</p>
+  <h2 class="section-title">Driven by Science,<br>Fuelled by Curiosity</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm a <strong>2nd year B.Tech Food Technology student</strong> at Integral University, Lucknow, with a deep interest in food processing, quality control, and dairy technology. I combine a strong academic foundation with hands-on laboratory skills.</p>
+      <p>Beyond academics, I've proven myself as an <strong>entrepreneur</strong> — building and operating an online jewellery brand (Lebra.in) end-to-end, achieving ₹1 lakh in sales in a single month through sharp product thinking and digital marketing.</p>
+      <p>I'm currently seeking <strong>internship opportunities</strong> where I can contribute meaningfully and grow within the food industry.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-card">
+        <div class="stat-number">2nd</div>
+        <div class="stat-label">Year B.Tech Student</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">₹1L</div>
+        <div class="stat-label">Sales in One Month</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">7+</div>
+        <div class="stat-label">Lab Techniques</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">3</div>
+        <div class="stat-label">Languages Spoken</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SKILLS -->
+<section id="skills">
+  <p class="section-label">Expertise</p>
+  <h2 class="section-title">Skills &amp; Capabilities</h2>
+  <div class="skills-grid">
+    <div class="skill-group">
+      <div class="skill-group-title">Technical Skills</div>
+      <div class="skill-tags">
+        <span class="tag">Food Microbiology</span>
+        <span class="tag">Food Chemistry</span>
+        <span class="tag">Food Processing</span>
+        <span class="tag">Heat Transfer</span>
+        <span class="tag">Refrigeration &amp; Freezing</span>
+        <span class="tag">Drying</span>
+        <span class="tag">Food Preservation</span>
+        <span class="tag">Dairy Technology</span>
+        <span class="tag">Packaging</span>
+        <span class="tag">Food Safety</span>
+        <span class="tag">Quality Control</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Laboratory Skills</div>
+      <div class="skill-tags">
+        <span class="tag">pH Testing</span>
+        <span class="tag">Moisture Analysis</span>
+        <span class="tag">MBRT Test</span>
+        <span class="tag">TSS Measurement</span>
+        <span class="tag">Microbial Analysis</span>
+        <span class="tag">Sensory Evaluation</span>
+        <span class="tag">Viscosity Testing</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Computer &amp; Digital</div>
+      <div class="skill-tags">
+        <span class="tag">MS Excel</span>
+        <span class="tag">Google Sheets</span>
+        <span class="tag">Canva</span>
+        <span class="tag">Shopify</span>
+        <span class="tag">Google Sites</span>
+        <span class="tag">Meta Ads</span>
+        <span class="tag">Social Media</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <p class="section-label">Experience</p>
+  <h2 class="section-title">Work &amp; Entrepreneurship</h2>
+  <div class="exp-card">
+    <div class="exp-role">Founder &amp; Operations Manager</div>
+    <div class="exp-company">Lebra.in — Online Jewellery Business · Self-Employed</div>
+    <div class="exp-achievement">🏆 ₹1,00,000 in sales — Single Month</div>
+    <ul class="exp-list">
+      <li>Managed end-to-end customer handling, communication and relationship building</li>
+      <li>Handled product listing, website management and inventory operations on Shopify</li>
+      <li>Led social media management and brand presence across platforms</li>
+      <li>Executed Meta Ads campaigns to drive traffic and conversions</li>
+      <li>Oversaw packaging, logistics and order fulfilment processes</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label">Projects</p>
+  <h2 class="section-title">Academic &amp; Industry Work</h2>
+  <div class="projects-grid">
+    <div class="project-card">
+      <span class="project-icon">☀️</span>
+      <div class="project-title">Solar Cooker Project</div>
+      <p class="project-desc">Designed and developed a functional solar cooker model as an academic project, applying principles of heat transfer, renewable energy, and food science to create a practical cooking solution.</p>
+    </div>
+    <div class="project-card">
+      <span class="project-icon">🏭</span>
+      <div class="project-title">Food Expo 2026 — Industrial Visit</div>
+      <p class="project-desc">Attended Food Expo 2026 in Lucknow to gain direct industry exposure, studying the latest food processing technologies, equipment innovations, and product trends shaping the modern food industry.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- EDUCATION -->
+<section id="education">
+  <p class="section-label">Education</p>
+  <h2 class="section-title">Academic Background</h2>
+  <div class="edu-timeline">
+    <div class="edu-card">
+      <div>
+        <div class="edu-degree">B.Tech — Food Technology</div>
+        <div class="edu-school">Integral University, Lucknow</div>
+      </div>
+      <div class="edu-meta">
+        <div class="edu-year">2024 — 2028</div>
+        <div class="edu-grade">Currently 2nd Year</div>
+      </div>
+    </div>
+    <div class="edu-card">
+      <div>
+        <div class="edu-degree">Class 12th</div>
+        <div class="edu-school">A P Uchh Vidyalaya · Bihar Board of Open School</div>
+      </div>
+      <div class="edu-meta">
+        <div class="edu-year">Completed</div>
+        <div class="edu-grade">67%</div>
+      </div>
+    </div>
+    <div class="edu-card">
+      <div>
+        <div class="edu-degree">Class 10th</div>
+        <div class="edu-school">ML Academy · Bihar Board of Open School</div>
+      </div>
+      <div class="edu-meta">
+        <div class="edu-year">Completed</div>
+        <div class="edu-grade">62%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- EXTRAS -->
+<section id="extras">
+  <p class="section-label">More About Me</p>
+  <h2 class="section-title">Beyond the Resume</h2>
+  <div class="extras-grid">
+    <div class="extras-card">
+      <div class="extras-card-title">Soft Skills</div>
+      <div class="pill-list">
+        <span class="pill">Quick Learner</span>
+        <span class="pill">Creativity</span>
+        <span class="pill">Problem Solving</span>
+        <span class="pill">Team Work</span>
+        <span class="pill">Time Management</span>
+      </div>
+    </div>
+    <div class="extras-card">
+      <div class="extras-card-title">Languages</div>
+      <div class="pill-list">
+        <span class="pill">Hindi</span>
+        <span class="pill">Urdu</span>
+        <span class="pill">English</span>
+      </div>
+    </div>
+    <div class="extras-card">
+      <div class="extras-card-title">Hobbies</div>
+      <div class="pill-list">
+        <span class="pill">Watching Movies</span>
+        <span class="pill">Reading</span>
+        <span class="pill">Technology</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div>
+      <p class="section-label">Contact</p>
+      <h2 class="contact-headline">Let's Work<br><em>Together</em></h2>
+      <p class="contact-sub">I'm actively seeking internship opportunities in food processing, quality control, dairy technology, and R&D. Feel free to reach out — I'd love to connect.</p>
+    </div>
+    <div class="contact-links">
+      <a href="mailto:shahbazahmad9783@gmail.com" class="contact-link">
+        <span class="contact-link-icon">✉</span>
+        <div class="contact-link-text">
+          <span>Email</span>
+          shahbazahmad9783@gmail.com
+        </div>
+      </a>
+      <a href="tel:+917004946234" class="contact-link">
+        <span class="contact-link-icon">✆</span>
+        <div class="contact-link-text">
+          <span>Phone</span>
+          +91 7004 946 234
+        </div>
+      </a>
+      <a href="https://linkedin.com/in/shahbaziul" target="_blank" class="contact-link">
+        <span class="contact-link-icon">in</span>
+        <div class="contact-link-text">
+          <span>LinkedIn</span>
+          linkedin.com/in/shahbaziul
+        </div>
+      </a>
+      <a class="contact-link">
+        <span class="contact-link-icon">📍</span>
+        <div class="contact-link-text">
+          <span>Location</span>
+          Darbhanga, Bihar · India
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Shahbaz Ahmad</div>
+  <div class="footer-copy">© 2026 · Food Technologist · Lucknow, India</div>
+</footer>
+
+<script>
+  const toggle = document.getElementById('toggle');
+  const html   = document.documentElement;
+  const thumb  = document.querySelector('.thumb');
+
+  function switchTheme() {
+    const isDark = html.dataset.theme === 'dark';
+    html.dataset.theme = isDark ? 'light' : 'dark';
+    thumb.textContent  = isDark ? '☀' : '☾';
+  }
+
+  toggle.addEventListener('click', switchTheme);
+  toggle.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') switchTheme();
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.skill-group, .stat-card, .project-card, .edu-card, .extras-card, .exp-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease, border-color 0.25s, background 0.55s';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
